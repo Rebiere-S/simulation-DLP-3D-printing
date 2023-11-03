@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AVOCarbon | Simulation DLP 3D printing</title>
-  <link rel="icon" href="ico.png" sizes="32x32">
-  <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;700&family=Lato&family=Montserrat:wght@600&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
@@ -11,103 +8,110 @@
 </head>
 <body>
   <header>
-    <img src="logo.png" alt="Logo AVOCarbon Group" id="logo">
+    <img src="https://raw.githubusercontent.com/Rebiere-S/syst-me-passage-de-commandes/main/logo-avocarbon-france.jpg" alt="Logo Avocarbon France" id="logo">
     <h1>Formulaire de simulation - Impression 3D DLP (Résine)</h1>
   </header>
-  <section>
-    <h2>Paramètres machine :</h2>
-    <form>
-      <fieldset>
-        <h3>Temps :</h3>
-        <div class="fieldRow">
-          <label>Temps d'exposition base (seconde(s))* :</label>
-          <input type="number" id="machine_time_baseExposure" min="0" value="45" onChange="updateValues();"/>
-        </div>
-        <div class="fieldRow">
-          <label>Temps d'exposition hors base (seconde(s))* :</label>
-          <input type="number" id="machine_time_nonBaseExposure" min="0" value="6" onChange="updateValues();"/>
-        </div>
-        <br>
-        <h3>Vitesses :</h3>
-        <div class="fieldRow">
-          <label>Vitesse de levage pour base (mm/min)* :</label>
-          <input type="number" id="machine_speed_baseLayersLift" min="1" value="60" onChange="updateValues();"/>
-        </div>
-        <div class="fieldRow">
-          <label>Vitesse de levage hors base (mm/min)* :</label>
-          <input type="number" id="machine_speed_nonBaseLayersLift" min="1" value="70" onChange="updateValues();"/>
-        </div>
-        <br>
-        <h3>Couches :</h3>
-        <div class="fieldRow">
-          <label>Hauteur de couches (mm)* :</label>
-          <input type="number" id="machine_layers_layerHeight" min="0.01" step="0.01" value="0.05" onChange="updateValues();"/>
-        </div>
-        <div class="fieldRow">
-          <label>Nombre de couches de base* :</label>
-          <input type="number" id="machine_layers_baseLayers" min="1" value="8" onChange="updateValues();"/>
-        </div>
-        <br>
-        <h3>Distances/hauteurs :</h3>
-        <div class="fieldRow">
-          <label>Hauteur de dégagement après exposition (mm)* :</label>
-          <input type="number" id="machine_heights_afterLayerLifting" min="1" value="5" onChange="updateValues();"/>
-        </div>
-        <div class="fieldRow">
-          <label>Surélévation de la pièce (mm) :</label>
-          <input type="number" id="partElevationFromBed" min="0" value="2.5" step="0.5" onChange="updateValues();"/>
-        </div>
-      </fieldset>
-    </form>
-  </section>
-  <section>
-    <h2>Fichier :</h2>
-    <form>
-      <fieldset>
-        <h3>Import fichier :</h3>
-        <input type="file" id="fileInput" accept=".stl"/>
-        <p><small><i>NOTE: L'unité de mesure du fichier doit être en millimètres (mm).</i></small></p>
-        <br>
-        <h3>Modèle :</h3>
-        <div class="fieldRow">
-          <label>Dimensions (mm) :</label>
-          <output id="dimensions">-</output>
-        </div>
-        <div class="fieldRow">
-          <form>
-            <label>Orientation de la pièce* :</label>
-            <input type="radio" id="partOrientationX" name="partOrientation" value="" onchange="updatePartOrientation(this.value);">
-            <label for="partOrientationX">Axe X</label><br>
+  <img src="https://assets.codepen.io/3503196/dlp_graphic.png" alt="Principe technologie DLP" id="dlpGraphic">
+  <p class="assetsSource"><small>(Source : https://formlabs.com)</small></p>
+  <content>
+    <section>
+      <h2>Paramètres machine :</h2>
+      <form>
+        <fieldset>
+          <h3>Temps :</h3>
+          <div class="fieldRow">
+            <label>Temps d'exposition base (seconde(s))* :</label>
+            <input type="number" id="machine_time_baseExposure" value="45" onChange="updateValues();"/>
+          </div>
+          <div class="fieldRow">
+            <label>Temps d'exposition hors base (seconde(s))* :</label>
+            <input type="number" id="machine_time_nonBaseExposure" min="0" value="6" onChange="updateValues();"/>
+          </div>
+          <br>
+          <h3>Vitesses :</h3>
+          <div class="fieldRow">
+            <label>Vitesse de levage pour base (mm/min)* :</label>
+            <input type="number" id="machine_speed_baseLayersLift" min="1" value="60" onChange="updateValues();"/>
+          </div>
+          <div class="fieldRow">
+            <label>Vitesse de levage hors base (mm/min)* :</label>
+            <input type="number" id="machine_speed_nonBaseLayersLift" min="1" value="70" onChange="updateValues();"/>
+          </div>
+          <br>
+          <h3>Couches :</h3>
+          <div class="fieldRow">
+            <label>Hauteur de couches (mm)* :</label>
+            <input type="number" id="machine_layers_layerHeight" min="0.01" step="0.01" value="0.05" onChange="updateValues();"/>
+          </div>
+          <div class="fieldRow">
+            <label>Nombre de couches de base* :</label>
+            <input type="number" id="machine_layers_baseLayers" min="1" value="8" onChange="updateValues();"/>
+          </div>
+          <br>
+          <h3>Distances/hauteurs :</h3>
+          <div class="fieldRow">
+            <label>Hauteur de dégagement après exposition (mm)* :</label>
+            <input type="number" id="machine_heights_afterLayerLifting" min="1" value="5" onChange="updateValues();"/>
+          </div>
+          <div class="fieldRow">
+            <label>Surélévation de la pièce (mm) :</label>
+            <input type="number" id="partElevationFromBed" min="0" value="2.5" step="0.5" onChange="updateValues();"/>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+    <section>
+      <h2>Fichier :</h2>
+      <form>
+        <fieldset>
+          <h3>Import fichier :</h3>
+          <input type="file" id="fileInput" accept=".stl"/>
+          <p class="warningNote"><small><i>NOTE: L'unité de mesure du fichier doit être en millimètres (mm).</i></small></p>
+          <br>
+          <h3>Modèle :</h3>
+          <div class="fieldRow">
+            <label>Dimensions (mm) :</label>
+            <output id="dimensions">-</output>
+          </div>
+          <div class="fieldRow">
+            <form>
+              <label>Orientation de la pièce* :</label>
+              <input type="radio" id="partOrientationX" name="partOrientation" value="" onchange="updatePartOrientation(this.value);">
+              <label for="partOrientationX">Axe X</label><br>
 
-            <input type="radio" id="partOrientationY" name="partOrientation" value="" onchange="updatePartOrientation(this.value);">
-            <label for="partOrientationY">Axe Y</label><br>
+              <input type="radio" id="partOrientationY" name="partOrientation" value="" onchange="updatePartOrientation(this.value);">
+              <label for="partOrientationY">Axe Y</label><br>
 
-            <input type="radio" id="partOrientationZ" name="partOrientation" value="" onchange="updatePartOrientation(this.value);" checked>
-            <label for="partOrientationZ">Axe Z</label>
-          </form>
-        </div>
-        <div class="fieldRow">
-          <label>Surface (mm²) :</label>
-          <output id="surface">-</output>
-        </div>
-        <div class="fieldRow">
-          <label>Volume (mm³) :</label>
-          <output id="volume">-</output>
-        </div>
-      </fieldset>
-    </form>
-  </section>
-  <section>
-    <h2>Résultats :</h2>
-    <form>
-      <fieldset>
-        <div class="fieldRow">
-          <label>Temps d'impression :</label>
-          <output id="printingTime">-</output>
-        </div>
-      </fieldset>
-    </form>
-  </section>
+              <input type="radio" id="partOrientationZ" name="partOrientation" value="" onchange="updatePartOrientation(this.value);" checked>
+              <label for="partOrientationZ">Axe Z</label>
+            </form>
+          </div>
+          <div class="fieldRow">
+            <label>Surface (mm²) :</label>
+            <output id="surface">-</output>
+          </div>
+          <div class="fieldRow">
+            <label>Volume (mm³) :</label>
+            <output id="volume">-</output>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+    <section>
+      <h2>Résultats :</h2>
+      <form>
+        <fieldset>
+          <div class="fieldRow">
+            <label>Temps d'impression :</label>
+            <output id="printingTime">-</output>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+  </content>
+  <div id="signatureContainer">
+    <p id="signature"><small>Conçu par Simon Rebière</small></p>
+  </div>
   <script>
     let machine_time_baseExposure = document.getElementById("machine_time_baseExposure").value,
         machine_time_nonBaseExposure = document.getElementById("machine_time_nonBaseExposure").value,
